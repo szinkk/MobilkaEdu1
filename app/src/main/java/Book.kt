@@ -1,14 +1,18 @@
 class Book(
-    override var price: Double,
+    override val price: Double,
     override val wordCount: Int
 ): Publication {
     override fun getType(): String{
-        return if (wordCount < 1000){
-            "Short Story"
-        } else if (wordCount < 7500){
-            "Flash Fiction"
-        } else{
-            "Novel"
+        return when {
+            wordCount <= 1000 -> {
+                "Short Story"
+            }
+            wordCount < 7500 -> {
+                "Flash Fiction"
+            }
+            else -> {
+                "Novel"
+            }
         }
     }
 
@@ -17,5 +21,11 @@ class Book(
             return false
         }
         return this.price == other.price && this.wordCount == other.wordCount
+    }
+
+    override fun hashCode(): Int {
+        var result = price.hashCode()
+        result = 31 * result + wordCount
+        return result
     }
 }

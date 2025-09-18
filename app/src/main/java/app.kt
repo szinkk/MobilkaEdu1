@@ -9,7 +9,7 @@ fun main(){
     println("bookSecond: The publication contains ${bookSecond.wordCount}, it is a ${bookSecond.getType()}, it costs ${bookSecond.price} euros.")
     println("magazineFirst: The publication contains ${magazineFirst.wordCount}, it is a ${magazineFirst.getType()}, it costs ${magazineFirst.price} euros.\n")
     println("The result of the comparison is in the link bookFirst and bookSecond: ${bookFirst === bookSecond}")
-    println("Result of comparison by method equals bookFirst and bookSecond: ${bookFirst.equals(bookSecond)}\n")
+    println("Result of comparison by method equals bookFirst and bookSecond: ${bookFirst == bookSecond}\n")
 
 
     val bookOfNull: Book? = null
@@ -27,7 +27,7 @@ fun main(){
 
 
     //Вторая часть
-    val userFirst: User = User(1, "Satorus", 77, Type.DEMO)
+    val userFirst = User(1, "Satorus", 77, Type.DEMO)
 
     println(userFirst.startTime)
     Thread.sleep(1000)
@@ -47,25 +47,31 @@ fun main(){
         add(User(0, "Ilya", 6, Type.FULL))
     }
 
-    val usersAdminList = mutableListOf<User>()
-    for (user in usersList){
-        if (user.type == Type.FULL){
-            usersAdminList.add(user)
-        }
-    }
+
+    val usersAdminList = usersList.filter { it.type == Type.FULL }
+
     val userNames = usersAdminList.map { it.name }
     val firstUserIndex = userNames.first()
     val lastUserIndex = userNames.last()
     println("List: $userNames \nFirst user in list: $firstUserIndex \nLast user in list: $lastUserIndex")
     println()
 
-    for (user in usersAdminList){
-        user.ageChecker()
-    }
-    println()
 
     doAction(Action.Registration)
+    println()
     doAction(Action.Login(userFirst))
+    println()
     doAction(Action.Logout)
+    println()
 
+    for (user in usersAdminList){
+        doAction(Action.Login(user))
+        println()
+    }
+
+
+}
+
+fun buy(publication: Publication?) {
+    println("The purchase is complete. The purchase amount was ${publication?.price}")
 }
